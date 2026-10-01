@@ -1,0 +1,23 @@
+name: CD Workflow
+
+on:
+  workflow_run: # Triggered when the CI workflow is completed
+    workflows: ["CI Workflow"]
+    types: [completed]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Execute remote SSH commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: cd ~/github-action-demo-three-tier-app
+            docker compose pull
+            docker compose up -d

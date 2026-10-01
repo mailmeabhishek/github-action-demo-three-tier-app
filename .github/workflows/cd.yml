@@ -18,6 +18,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
-          script: cd ~/github-action-demo-three-tier-app
+          script:
+            git clone https://github.com/mailmeabhishek/github-action-demo-three-tier-app.git
+            cd ~/github-action-demo-three-tier-app
             docker compose pull
             docker compose up -d
